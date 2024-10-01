@@ -100,15 +100,6 @@ func DeleteProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
 }
 
-// GetProductByID - Lấy sản phẩm theo ID
-/* func GetProductByID(c *gin.Context) {
-	var product models.Product
-	if err := config.DB.Where("product_id = ?", c.Param("product_id")).First(&product).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": product})
-} */
 func GetProductByID(c *gin.Context) {
 	productIDStr := c.Param("product_id")
 	if productIDStr == "" {
