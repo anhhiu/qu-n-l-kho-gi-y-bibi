@@ -1,9 +1,12 @@
 package routes
 
 import (
+	//"bibi/config"
+	"bibi/config"
 	"bibi/controllers"
 
 	"github.com/gin-gonic/gin"
+	//"gorm.io/gorm"
 )
 
 func SetupRouter() *gin.Engine {
@@ -29,6 +32,9 @@ func SetupRouter() *gin.Engine {
 
 	user := router.Group("/user")
 	{
+
+		//user.Use(controllers.PhanQuyen("admin"))
+		user.Use(controllers.AuthorizeRole(config.DB, "admin"))
 		user.GET("/", controllers.GetUsers)
 		user.POST("/", controllers.CreateUser)
 	}

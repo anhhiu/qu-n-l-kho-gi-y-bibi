@@ -37,30 +37,6 @@ type Product struct {
 
 	Supplier *Supplier `gorm:"foreignKey:SupplierID" json:"supplier"`
 }
-
-/* // Order (Đơn hàng)
-type Order struct {
-	OrderID     int       `gorm:"primaryKey;autoIncrement;column:order_id" json:"order_id"`
-	CustomerID  int       `gorm:"column:customer_id" json:"customer_id"`
-	OrderDate   time.Time `gorm:"type:date;column:order_date" json:"order_date"`
-	TotalAmount float64   `gorm:"type:decimal(10,2);column:total_amount" json:"total_amount"`
-	Status      string    `gorm:"size:50;column:status" json:"status"`
-
-	Customer *Customer `gorm:"foreignKey:CustomerID" json:"customer"`
-}
-
-// OrderDetail (Chi tiết đơn hàng)
-type OrderDetail struct {
-	OrderDetailID int     `gorm:"primaryKey;autoIncrement;column:order_detail_id" json:"order_detail_id"`
-	OrderID       int     `gorm:"column:order_id" json:"order_id"`
-	ProductID     int     `gorm:"column:product_id" json:"product_id"`
-	Quantity      int     `gorm:"column:quantity" json:"quantity"`
-	Price         float64 `gorm:"type:decimal(10,2);column:price" json:"price"`
-
-	Order   *Order   `gorm:"foreignKey:OrderID" json:"order"`
-	Product *Product `gorm:"foreignKey:ProductID" json:"product"`
-} */
-// Order (Đơn hàng)
 type Order struct {
 	OrderID     int       `gorm:"primaryKey;autoIncrement;column:order_id" json:"order_id"`
 	CustomerID  int       `gorm:"column:customer_id" json:"customer_id"`
