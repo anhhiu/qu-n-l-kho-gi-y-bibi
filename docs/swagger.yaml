@@ -1,29 +1,4 @@
 definitions:
-  controllers.CreateOrderInput:
-    properties:
-      customer_id:
-        type: integer
-      products:
-        items:
-          properties:
-            product_id:
-              type: integer
-            quantity:
-              type: integer
-            unit_price:
-              type: number
-          type: object
-        type: array
-    type: object
-  controllers.UpdateOrderInput:
-    properties:
-      customer_id:
-        type: integer
-      status:
-        type: string
-      total_amount:
-        type: number
-    type: object
   models.Customer:
     properties:
       address:
@@ -165,16 +140,16 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: Order data
+      - description: Orders data
         in: body
         name: order
         required: true
         schema:
-          $ref: '#/definitions/controllers.CreateOrderInput'
+          type: object
       produces:
       - application/json
       responses: {}
-      summary: Create Order
+      summary: create order
       tags:
       - orders
   /order/{order_id}:
@@ -196,14 +171,14 @@ paths:
         name: order_id
         required: true
         type: integer
-      - description: Order data
+      - description: Updated order data
         in: body
         name: order
         required: true
         schema:
-          $ref: '#/definitions/controllers.UpdateOrderInput'
+          type: object
       responses: {}
-      summary: Update Order by ID
+      summary: update order by id
       tags:
       - orders
   /orderdetail/:

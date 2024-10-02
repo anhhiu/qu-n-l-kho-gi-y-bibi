@@ -142,15 +142,15 @@ const docTemplate = `{
                 "tags": [
                     "orders"
                 ],
-                "summary": "Create Order",
+                "summary": "create order",
                 "parameters": [
                     {
-                        "description": "Order data",
+                        "description": "Orders data",
                         "name": "order",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.CreateOrderInput"
+                            "type": "object"
                         }
                     }
                 ],
@@ -162,7 +162,7 @@ const docTemplate = `{
                 "tags": [
                     "orders"
                 ],
-                "summary": "Update Order by ID",
+                "summary": "update order by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -172,12 +172,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Order data",
+                        "description": "Updated order data",
                         "name": "order",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.UpdateOrderInput"
+                            "type": "object"
                         }
                     }
                 ],
@@ -462,45 +462,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "controllers.CreateOrderInput": {
-            "type": "object",
-            "properties": {
-                "customer_id": {
-                    "type": "integer"
-                },
-                "products": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "product_id": {
-                                "type": "integer"
-                            },
-                            "quantity": {
-                                "type": "integer"
-                            },
-                            "unit_price": {
-                                "type": "number"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "controllers.UpdateOrderInput": {
-            "type": "object",
-            "properties": {
-                "customer_id": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "total_amount": {
-                    "type": "number"
-                }
-            }
-        },
         "models.Customer": {
             "type": "object",
             "properties": {

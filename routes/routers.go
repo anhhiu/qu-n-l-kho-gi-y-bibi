@@ -73,8 +73,8 @@ func SetupRouter() *gin.Engine {
 		order.GET("/", controllers.GetAllOrder)
 		order.GET("/:order_id", controllers.GetOrderById)
 		order.POST("/", controllers.CreateOrder)
-		order.PUT("/:order_id", controllers.UpdateOrderByID)
-		order.DELETE("/:order_id", controllers.DeleteOrderByID)
+		order.PUT("/:order_id", controllers.UpdateOrderById)
+		order.DELETE("/:order_id", controllers.DeleteOrderById)
 	}
 
 	orderdetail := router.Group("/api/orderdetail")
