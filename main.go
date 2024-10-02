@@ -2,6 +2,7 @@ package main
 
 import (
 	"bibi/config"
+	_ "bibi/docs"
 	"bibi/models"
 	"bibi/routes"
 	"fmt"

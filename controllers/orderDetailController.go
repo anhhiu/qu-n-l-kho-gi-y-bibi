@@ -10,6 +10,9 @@ import (
 	"gorm.io/gorm"
 )
 
+// @tags orderdetails
+// @summary get all orderdetails
+// @router /orderdetail/ [get]
 func GetALLOrderDetail(c *gin.Context) {
 	var orderdetails []models.OrderDetail
 	if err := config.DB.Find(&orderdetails).Error; err != nil {
@@ -23,6 +26,14 @@ func GetALLOrderDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": orderdetails})
 }
 
+// GetOrderDetailById godoc
+// @Summary Get order detail by ID
+// @Description Retrieve a specific order detail by ID
+// @Tags orderdetails
+// @Accept json
+// @Produce json
+// @Param order_detail_id path int true "OrderDetailID"
+// @Router /orderdetail/{order_detail_id} [get]
 func GetOrderDetailById(c *gin.Context) {
 	var orderdetail models.OrderDetail
 	if err := config.DB.Where("order_detail_id = ?", c.Param("order_detail_id")).First(&orderdetail).Error; err != nil {

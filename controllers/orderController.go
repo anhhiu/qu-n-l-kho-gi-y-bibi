@@ -9,12 +9,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Get all orders
+// @Tags orders
+// @Accept json
+// @Produce json
+// @Router /order/ [get]
 func GetAllOrder(c *gin.Context) {
 	var orders models.Order
 	config.DB.Find(&orders)
 	c.JSON(http.StatusOK, gin.H{"data": orders})
 }
 
+// @Summary create order
+// @Tags orders
+// @Accept json
+// @Produce json
+// @Param order body models.Order true "Orders data"
+// @Router /order/ [post]
 func CreateOrder(c *gin.Context) {
 	// Khai báo cấu trúc đầu vào
 	var input struct {
@@ -66,7 +77,7 @@ func CreateOrder(c *gin.Context) {
 			return
 		}
 	}
-
+	
 	// Cập nhật tổng tiền cho đơn hàng
 	order.TotalAmount = totalAmount
 	if err := config.DB.Save(&order).Error; err != nil {
@@ -80,7 +91,13 @@ func CreateOrder(c *gin.Context) {
 		"order":   order,
 	})
 }
-
+// @Summary update order
+	// @Tags orders
+	// @Accept json
+	// @Produce json
+	//@Param order_id  path int true "OrderID"
+	//@Param order body models.Order true "Orders data"
+	// @Router /order/ [put]
 func UpdateOrderById(c *gin.Context) {
 	var order models.Order
 	if err := config.DB.Where("order_id = ?", c.Param("order_id")).First(&order).Error; err != nil {
@@ -96,7 +113,10 @@ func UpdateOrderById(c *gin.Context) {
 	config.DB.Model(&order).Updates(&input)
 	c.JSON(http.StatusOK, gin.H{"data": order})
 }
-
+//@tags orders
+//@summary delele order by id
+//@param orders_id path int true "OrderID"
+//@router /order/{order_id} [delete]
 func DeleteOrderById(c *gin.Context) {
 	var order models.Order
 	if err := config.DB.Where("order_id = ?", c.Param("order_id")).First(&order).Error; err != nil {
@@ -107,7 +127,10 @@ func DeleteOrderById(c *gin.Context) {
 	config.DB.Delete(&order)
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
-
+//@tags orders
+//@summary get order by id
+//@param orders_id path int true "OrderID"
+//@router /order/{order_id} [get]
 func GetOrderById(c *gin.Context) {
 	var order models.Order
 	if err := config.DB.Where("order_id = ?", c.Param("order_id")).First(&order).Error; err != nil {

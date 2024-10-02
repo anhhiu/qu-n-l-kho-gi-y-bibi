@@ -1,0 +1,391 @@
+definitions:
+  models.Customer:
+    properties:
+      address:
+        type: string
+      customer_id:
+        type: integer
+      customer_name:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.Order:
+    properties:
+      customer:
+        $ref: '#/definitions/models.Customer'
+      customer_id:
+        type: integer
+      order_date:
+        type: string
+      order_id:
+        type: integer
+      status:
+        type: string
+      total_amount:
+        type: number
+    type: object
+  models.Product:
+    properties:
+      brand:
+        type: string
+      color:
+        type: string
+      description:
+        type: string
+      image:
+        type: string
+      price:
+        type: number
+      product_id:
+        type: integer
+      product_name:
+        type: string
+      quantity:
+        type: integer
+      size:
+        type: string
+      supplier:
+        $ref: '#/definitions/models.Supplier'
+      supplier_id:
+        type: integer
+    type: object
+  models.Supplier:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      supplier_id:
+        type: integer
+      supplier_name:
+        type: string
+      website:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /customer/:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of customers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Customer'
+            type: array
+      summary: Get all customers
+      tags:
+      - customers
+    post:
+      parameters:
+      - description: customer data
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/models.Customer'
+      responses: {}
+      summary: create customer
+      tags:
+      - customers
+  /customer/{customer_id}:
+    delete:
+      parameters:
+      - description: Customer ID
+        in: path
+        name: customer_id
+        required: true
+        type: integer
+      responses: {}
+      summary: delete customer by id
+      tags:
+      - customers
+    get:
+      parameters:
+      - description: Customer ID
+        in: path
+        name: customer_id
+        required: true
+        type: integer
+      responses: {}
+      summary: get customer by id
+      tags:
+      - customers
+  /customer/{supplier_id}:
+    put:
+      parameters:
+      - description: Customer ID
+        in: path
+        name: customer_id
+        required: true
+        type: integer
+      - description: Customer info
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/models.Customer'
+      responses: {}
+      summary: update customer by id
+      tags:
+      - customers
+  /order/:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses: {}
+      summary: Get all orders
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Orders data
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      produces:
+      - application/json
+      responses: {}
+      summary: create order
+      tags:
+      - orders
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: OrderID
+        in: path
+        name: order_id
+        required: true
+        type: integer
+      - description: Orders data
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      produces:
+      - application/json
+      responses: {}
+      summary: update order
+      tags:
+      - orders
+  /order/{order_id}:
+    delete:
+      parameters:
+      - description: OrderID
+        in: path
+        name: orders_id
+        required: true
+        type: integer
+      responses: {}
+      summary: delele order by id
+      tags:
+      - orders
+    get:
+      parameters:
+      - description: OrderID
+        in: path
+        name: orders_id
+        required: true
+        type: integer
+      responses: {}
+      summary: get order by id
+      tags:
+      - orders
+  /orderdetail/:
+    get:
+      responses: {}
+      summary: get all orderdetails
+      tags:
+      - orderdetails
+  /orderdetail/{order_detail_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific order detail by ID
+      parameters:
+      - description: OrderDetailID
+        in: path
+        name: order_detail_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Get order detail by ID
+      tags:
+      - orderdetails
+  /product/:
+    get:
+      responses: {}
+      summary: get allproducts
+      tags:
+      - products
+  /product/{product_id}:
+    delete:
+      parameters:
+      - description: ProductID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      responses: {}
+      summary: delete product by id
+      tags:
+      - products
+    get:
+      parameters:
+      - description: ProductID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      responses: {}
+      summary: get product by id
+      tags:
+      - products
+    post:
+      parameters:
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      responses: {}
+      summary: create product
+      tags:
+      - products
+    put:
+      parameters:
+      - description: ProductID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      - description: Products info
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      responses: {}
+      summary: update product
+      tags:
+      - products
+  /report/inventory:
+    get:
+      consumes:
+      - application/json
+      description: Lấy báo cáo tồn kho
+      produces:
+      - application/json
+      responses: {}
+      summary: Thống kê báo cáo tồn kho
+      tags:
+      - report
+  /report/order:
+    get:
+      consumes:
+      - application/json
+      description: 'Lấy báo cáo đơn hàng: xử lý, đang chờ, và bị hủy'
+      produces:
+      - application/json
+      responses: {}
+      summary: Thống kê đơn hàng
+      tags:
+      - report
+  /report/revenue:
+    get:
+      consumes:
+      - application/json
+      description: Lấy báo cáo doanh thu theo tháng
+      produces:
+      - application/json
+      responses: {}
+      summary: Thống kê doanh thu
+      tags:
+      - report
+  /supplier/:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses: {}
+      summary: Get all suppliers
+      tags:
+      - suppliers
+    post:
+      parameters:
+      - description: Supplier data
+        in: body
+        name: supplier
+        required: true
+        schema:
+          $ref: '#/definitions/models.Supplier'
+      responses: {}
+      summary: delete supplier
+      tags:
+      - suppliers
+  /supplier/{supplier_id}:
+    delete:
+      parameters:
+      - description: Supplier ID
+        in: path
+        name: supplier_id
+        required: true
+        type: integer
+      responses: {}
+      summary: delete supplier
+      tags:
+      - suppliers
+    get:
+      parameters:
+      - description: Supplier ID
+        in: path
+        name: supplier_id
+        required: true
+        type: integer
+      responses: {}
+      summary: Get supplier by id
+      tags:
+      - suppliers
+    put:
+      parameters:
+      - description: Supplier ID
+        in: path
+        name: supplier_id
+        required: true
+        type: integer
+      - description: Supplier info
+        in: body
+        name: supplier
+        required: true
+        schema:
+          $ref: '#/definitions/models.Supplier'
+      responses: {}
+      summary: update supplier
+      tags:
+      - suppliers
+swagger: "2.0"

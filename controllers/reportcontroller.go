@@ -10,7 +10,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-// ham bao cao ton kho 
+
+// GetInventoryReport godoc
+// @Summary Thống kê báo cáo tồn kho
+// @Description Lấy báo cáo tồn kho
+// @Tags report
+// @Accept json
+// @Produce json
+// @Router /report/inventory [get]
+// ham bao cao ton kho
 func GetInventoryReport(c *gin.Context) {
 	var products []models.Product
 	var report models.InventoryReport
@@ -35,6 +43,14 @@ func GetInventoryReport(c *gin.Context) {
 
 	c.JSON(http.StatusOK, report)
 }
+
+// GetRevenueReport godoc
+// @Summary Thống kê doanh thu
+// @Description Lấy báo cáo doanh thu theo tháng
+// @Tags report
+// @Accept json
+// @Produce json
+// @Router /report/revenue [get]
 // hma cao cao doanh thu
 func GetRevenueReport(c *gin.Context) {
 	var orders []models.Order
@@ -72,35 +88,42 @@ func GetRevenueReport(c *gin.Context) {
 	c.JSON(http.StatusOK, report)
 }
 
+// GetOrderReport godoc
+// @Summary Thống kê đơn hàng
+// @Description Lấy báo cáo đơn hàng: xử lý, đang chờ, và bị hủy
+// @Tags report
+// @Accept json
+// @Produce json
+// @Router /report/order [get]
 // ham bao cao tinh trang các don hang
 func GetOrderReport(c *gin.Context) {
-    var orders []models.Order
-    orderReports := make(map[string]*models.OrderReport) // để lưu trữ báo cáo theo trạng thái
+	var orders []models.Order
+	orderReports := make(map[string]*models.OrderReport) // để lưu trữ báo cáo theo trạng thái
 
-    // Lấy tất cả đơn hàng từ cơ sở dữ liệu
-    if err := config.DB.Find(&orders).Error; err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-        return
-    }
+	// Lấy tất cả đơn hàng từ cơ sở dữ liệu
+	if err := config.DB.Find(&orders).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
-    // Tính toán số lượng và doanh thu theo trạng thái
-    for _, order := range orders {
-        if _, exists := orderReports[order.Status]; !exists {
-            orderReports[order.Status] = &models.OrderReport{
-                Status:       order.Status,
-                TotalOrders:  0,
-                TotalRevenue: 0,
-            }
-        }
-        orderReports[order.Status].TotalOrders++
-        orderReports[order.Status].TotalRevenue += order.TotalAmount
-    }
+	// Tính toán số lượng và doanh thu theo trạng thái
+	for _, order := range orders {
+		if _, exists := orderReports[order.Status]; !exists {
+			orderReports[order.Status] = &models.OrderReport{
+				Status:       order.Status,
+				TotalOrders:  0,
+				TotalRevenue: 0,
+			}
+		}
+		orderReports[order.Status].TotalOrders++
+		orderReports[order.Status].TotalRevenue += order.TotalAmount
+	}
 
-    var report []models.OrderReport
-    // Chuyển đổi map thành slice
-    for _, reportItem := range orderReports {
-        report = append(report, *reportItem)
-    }
+	var report []models.OrderReport
+	// Chuyển đổi map thành slice
+	for _, reportItem := range orderReports {
+		report = append(report, *reportItem)
+	}
 
-    c.JSON(http.StatusOK, report)
+	c.JSON(http.StatusOK, report)
 }

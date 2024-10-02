@@ -8,12 +8,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetSupplier godoc
+// @Summary Get all suppliers
+// @Tags suppliers
+// @Accept json
+// @Produce json
+// @Router /supplier/ [get]
 func GetSupplier(c *gin.Context) {
 	var suppliers []models.Supplier
 	config.DB.Find(&suppliers)
 	c.JSON(http.StatusOK, gin.H{"data": suppliers})
 }
 
+// @tags suppliers
+// @Summary delete supplier
+// @Param supplier body models.Supplier true "Supplier data"
+// @Router /supplier/ [post]
 func CreateSupplier(c *gin.Context) {
 	var input models.Supplier
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -31,6 +41,10 @@ func CreateSupplier(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": supplier})
 }
 
+// @tags suppliers
+// @Summary Get supplier by id
+// @Param supplier_id path int true "Supplier ID"
+// @Router /supplier/{supplier_id} [get]
 func GetSupplierById(c *gin.Context) {
 	var supplier models.Supplier
 	if err := config.DB.Where("supplier_id = ?", c.Param("supplier_id")).First(&supplier).Error; err != nil {
@@ -40,6 +54,11 @@ func GetSupplierById(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": supplier})
 }
 
+// @tags suppliers
+// @Summary update supplier
+// @Param supplier_id path int true "Supplier ID"
+// @Param supplier body models.Supplier true "Supplier info"
+// @Router /supplier/{supplier_id} [put]
 func UpdateSuplierById(c *gin.Context) {
 	var supplier models.Supplier
 
@@ -56,6 +75,10 @@ func UpdateSuplierById(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": supplier})
 }
 
+// @tags suppliers
+// @Summary delete supplier
+// @Param supplier_id path int true "Supplier ID"
+// @Router /supplier/{supplier_id} [delete]
 func DeleteSupplierById(c *gin.Context) {
 	var supplier models.Supplier
 	if err := config.DB.Where("supplier_id = ?", c.Param("supplier_id")).First(&supplier).Error; err != nil {

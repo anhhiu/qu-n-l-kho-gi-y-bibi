@@ -1,28 +1,37 @@
 package routes
 
 import (
-	//"bibi/config"
 	"bibi/auth"
-	"bibi/config"
 	"bibi/controllers"
+	"bibi/docs"
 
-	"github.com/gin-gonic/gin"
-	//"gorm.io/gorm"
+	"github.com/gin-gonic/gin"                   // Swagger embed files
+	httpSwagger "github.com/swaggo/http-swagger" // Http Swagger middleware
 )
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
+	docs.SwaggerInfo.BasePath = "/api"
+
+	// Cập nhật dòng này
+	router.GET("/swagger/*any", gin.WrapH(httpSwagger.WrapHandler))
 
 	router.POST("/register", auth.Register)
-    router.POST("/login", auth.Login)
-	// bao cao ton kho
-	router.GET("/inventory/report", controllers.GetInventoryReport)
-	// bao cao doanh thu
-	router.GET("/revenue/report", controllers.GetRevenueReport)
-	// bao cao dơn hang
-	router.GET("order/report", controllers.GetOrderReport)
+	router.POST("/login", auth.Login)
 
-	supplier := router.Group("/supplier")
+	// Bao cao ton kho
+	report := router.Group("/api/report")
+	{
+		//report.Use(auth.AuthMiddleware("admin"))
+		// Bao cao ton kho
+		report.GET("/inventory", controllers.GetInventoryReport)
+		// Bao cao doanh thu
+		report.GET("/revenue", controllers.GetRevenueReport)
+		// Bao cao đơn hàng
+		report.GET("/order", controllers.GetOrderReport)
+	}
+
+	supplier := router.Group("/api/supplier")
 	{
 		supplier.GET("/", controllers.GetSupplier)
 		supplier.GET("/:supplier_id", controllers.GetSupplierById)
@@ -31,7 +40,7 @@ func SetupRouter() *gin.Engine {
 		supplier.DELETE("/:supplier_id", controllers.DeleteSupplierById)
 	}
 
-	customer := router.Group("/customer")
+	customer := router.Group("/api/customer")
 	{
 		customer.GET("/", controllers.GetCustomer)
 		customer.GET("/:customer_id", controllers.GetCustomerById)
@@ -40,16 +49,13 @@ func SetupRouter() *gin.Engine {
 		customer.DELETE("/:customer_id", controllers.DeleteCustomerById)
 	}
 
-	user := router.Group("/user")
+	user := router.Group("/api/user")
 	{
-
-		//user.Use(controllers.PhanQuyen("admin"))
-		user.Use(controllers.AuthorizeRole(config.DB, "admin"))
 		user.GET("/", controllers.GetUsers)
 		user.POST("/", controllers.CreateUser)
 	}
 
-	product := router.Group("/product")
+	product := router.Group("/api/product")
 	{
 		product.GET("/", controllers.GetAllProducts)
 		product.POST("/", controllers.CreateProduct)
@@ -57,11 +63,11 @@ func SetupRouter() *gin.Engine {
 		product.GET("/:product_id", controllers.GetProductByID)
 		product.PUT("/:product_id", controllers.UpdateProduct)
 		product.PUT("/:product_id/quantity", controllers.UpdateProductByIdQuantity)
-		product.DELETE("/product_id", controllers.DeleteProduct)
-		product.GET("/inventory ", controllers.GetInventoryReport)
+		product.DELETE("/:product_id", controllers.DeleteProduct)
+		product.GET("/inventory", controllers.GetInventoryReport)
 	}
 
-	order := router.Group("/order")
+	order := router.Group("/api/order")
 	{
 		order.GET("/", controllers.GetAllOrder)
 		order.GET("/:order_id", controllers.GetOrderById)
@@ -70,12 +76,11 @@ func SetupRouter() *gin.Engine {
 		order.DELETE("/:order_id", controllers.DeleteOrderById)
 	}
 
-	orderdetail := router.Group("/orderdetail")
+	orderdetail := router.Group("/api/orderdetail")
 	{
 		orderdetail.GET("/", controllers.GetALLOrderDetail)
 		orderdetail.GET("/:order_detail_id", controllers.GetOrderDetailById)
 	}
 
 	return router
-
 }

@@ -90,13 +90,16 @@ type InventoryReport struct {
 }
 
 // báo cáo doanh thu
+// RevenueReport là struct mô tả báo cáo doanh thu
+// @Description Mô tả báo cáo doanh thu
 
 type RevenueReport struct {
     Month   int     `json:"month"`   // Tháng (1-12)
     Year    int     `json:"year"`    // Năm
     Revenue float64 `json:"revenue"`  // Doanh thu
 }
-
+// OrderReport là struct mô tả báo cáo đơn hàng
+// @Description Mô tả báo cáo đơn hàng
 // bao cao don hang
 type OrderReport struct {
     Status          string `json:"status"`          // Trạng thái đơn hàng
