@@ -2,6 +2,7 @@ package routes
 
 import (
 	//"bibi/config"
+	"bibi/auth"
 	"bibi/config"
 	"bibi/controllers"
 
@@ -11,6 +12,15 @@ import (
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
+
+	router.POST("/register", auth.Register)
+    router.POST("/login", auth.Login)
+	// bao cao ton kho
+	router.GET("/inventory/report", controllers.GetInventoryReport)
+	// bao cao doanh thu
+	router.GET("/revenue/report", controllers.GetRevenueReport)
+	// bao cao dơn hang
+	router.GET("order/report", controllers.GetOrderReport)
 
 	supplier := router.Group("/supplier")
 	{

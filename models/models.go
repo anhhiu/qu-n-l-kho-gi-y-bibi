@@ -1,6 +1,12 @@
 package models
 
-import "time"
+import (
+	"fmt"
+	"time"
+
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
+)
 
 // Supplier (Nhà cung cấp)
 type Supplier struct {
@@ -64,4 +70,36 @@ type Users struct {
 	Role     string `gorm:"column:role" json:"role"`
 	UserName string `gorm:"column:username" json:"username"`
 	PassWord string `gorm:"column:password" json:"password"`
+}
+
+func (user *Users) BeforeSave(tx *gorm.DB) (err error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.PassWord), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Hashed password before saving:", hashedPassword)
+	user.PassWord = string(hashedPassword)
+	return nil
+}
+// bao cao ton kho
+type InventoryReport struct {
+    TotalProducts   int     `json:"total_products"`
+    TotalQuantity   int     `json:"total_quantity"`
+    TotalValue      float64 `json:"total_value"`
+    LowStockProducts []Product `json:"low_stock_products"`
+}
+
+// báo cáo doanh thu
+
+type RevenueReport struct {
+    Month   int     `json:"month"`   // Tháng (1-12)
+    Year    int     `json:"year"`    // Năm
+    Revenue float64 `json:"revenue"`  // Doanh thu
+}
+
+// bao cao don hang
+type OrderReport struct {
+    Status          string `json:"status"`          // Trạng thái đơn hàng
+    TotalOrders     int    `json:"total_orders"`    // Tổng số đơn hàng theo trạng thái
+    TotalRevenue    float64 `json:"total_revenue"`  // Tổng doanh thu theo trạng thái
 }

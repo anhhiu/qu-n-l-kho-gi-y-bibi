@@ -185,7 +185,7 @@ func GetPurchasedProductsByCustomer(c *gin.Context) {
 
 // báo cáo tồn kho
 
-func GetInventoryReport(c *gin.Context) {
+func GetInventoryReport1(c *gin.Context) {
 	var products []models.Product
 
 	// Thực hiện truy vấn để lấy tất cả sản phẩm và số lượng tồn kho

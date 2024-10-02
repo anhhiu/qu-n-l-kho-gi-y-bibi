@@ -97,6 +97,6 @@ func AuthorizeRole(db *gorm.DB, roles ...string) gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusForbidden, gin.H{"error": "Access denied"})
-		c.Abort()
+		c.Abort()  
 	}
 }
