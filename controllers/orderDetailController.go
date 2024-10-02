@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	//"google.golang.org/protobuf/internal/order"
 	"gorm.io/gorm"
 )
 
@@ -15,7 +16,7 @@ import (
 // @router /orderdetail/ [get]
 func GetALLOrderDetail(c *gin.Context) {
 	var orderdetails []models.OrderDetail
-	if err := config.DB.Find(&orderdetails).Error; err != nil {
+	if err := config.DB.Preload("Order").Preload("Product").Find(&orderdetails).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve order details"})
 		return
 	}
@@ -36,7 +37,7 @@ func GetALLOrderDetail(c *gin.Context) {
 // @Router /orderdetail/{order_detail_id} [get]
 func GetOrderDetailById(c *gin.Context) {
 	var orderdetail models.OrderDetail
-	if err := config.DB.Where("order_detail_id = ?", c.Param("order_detail_id")).First(&orderdetail).Error; err != nil {
+	if err := config.DB.Preload("Order").Preload("Product").Where("order_detail_id = ?", c.Param("order_detail_id")).First(&orderdetail).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Order detail not found"})
 		} else {
