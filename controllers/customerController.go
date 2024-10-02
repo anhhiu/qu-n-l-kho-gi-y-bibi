@@ -60,7 +60,7 @@ func CreateCustomer(c *gin.Context) {
 // @Summary update customer by id
 // @Param customer_id path int true "Customer ID"
 // @Param customer body models.Customer true "Customer info"
-// @Router /customer/{supplier_id} [put]
+// @Router /customer/{customer_id} [put]
 func UpdateCustomerById(c *gin.Context) {
 	var customer models.Customer
 	if err := config.DB.Where("customer_id = ?", c.Param("customer_id")).First(&customer).Error; err != nil {

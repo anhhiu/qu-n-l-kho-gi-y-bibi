@@ -1,4 +1,29 @@
 definitions:
+  controllers.CreateOrderInput:
+    properties:
+      customer_id:
+        type: integer
+      products:
+        items:
+          properties:
+            product_id:
+              type: integer
+            quantity:
+              type: integer
+            unit_price:
+              type: number
+          type: object
+        type: array
+    type: object
+  controllers.UpdateOrderInput:
+    properties:
+      customer_id:
+        type: integer
+      status:
+        type: string
+      total_amount:
+        type: number
+    type: object
   models.Customer:
     properties:
       address:
@@ -13,21 +38,6 @@ definitions:
         type: string
       phone:
         type: string
-    type: object
-  models.Order:
-    properties:
-      customer:
-        $ref: '#/definitions/models.Customer'
-      customer_id:
-        type: integer
-      order_date:
-        type: string
-      order_id:
-        type: integer
-      status:
-        type: string
-      total_amount:
-        type: number
     type: object
   models.Product:
     properties:
@@ -124,7 +134,6 @@ paths:
       summary: get customer by id
       tags:
       - customers
-  /customer/{supplier_id}:
     put:
       parameters:
       - description: Customer ID
@@ -156,37 +165,16 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: Orders data
+      - description: Order data
         in: body
         name: order
         required: true
         schema:
-          $ref: '#/definitions/models.Order'
+          $ref: '#/definitions/controllers.CreateOrderInput'
       produces:
       - application/json
       responses: {}
-      summary: create order
-      tags:
-      - orders
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: OrderID
-        in: path
-        name: order_id
-        required: true
-        type: integer
-      - description: Orders data
-        in: body
-        name: order
-        required: true
-        schema:
-          $ref: '#/definitions/models.Order'
-      produces:
-      - application/json
-      responses: {}
-      summary: update order
+      summary: Create Order
       tags:
       - orders
   /order/{order_id}:
@@ -201,15 +189,21 @@ paths:
       summary: delele order by id
       tags:
       - orders
-    get:
+    put:
       parameters:
-      - description: OrderID
+      - description: Order ID
         in: path
-        name: orders_id
+        name: order_id
         required: true
         type: integer
+      - description: Order data
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UpdateOrderInput'
       responses: {}
-      summary: get order by id
+      summary: Update Order by ID
       tags:
       - orders
   /orderdetail/:
@@ -241,6 +235,18 @@ paths:
       summary: get allproducts
       tags:
       - products
+    post:
+      parameters:
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      responses: {}
+      summary: create product
+      tags:
+      - products
   /product/{product_id}:
     delete:
       parameters:
@@ -262,18 +268,6 @@ paths:
         type: integer
       responses: {}
       summary: get product by id
-      tags:
-      - products
-    post:
-      parameters:
-      - description: Product data
-        in: body
-        name: product
-        required: true
-        schema:
-          $ref: '#/definitions/models.Product'
-      responses: {}
-      summary: create product
       tags:
       - products
     put:

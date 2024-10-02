@@ -9,9 +9,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-//@tags products
-//@summary get allproducts
-//@router /product/ [get]
+
+// @tags products
+// @summary get allproducts
+// @router /product/ [get]
 // GetAllProducts - Lấy tất cả sản phẩm
 func GetAllProducts(c *gin.Context) {
 	var products []models.Product
@@ -21,10 +22,11 @@ func GetAllProducts(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
-//@tags products
-//@summary create product
-//@param product body models.Product true "Product data"
-//@router /product/{product_id} [post]
+
+// @tags products
+// @summary create product
+// @param product body models.Product true "Product data"
+// @router /product/ [post]
 func CreateProduct(c *gin.Context) {
 	var input struct {
 		ProductName string           `json:"product_name"`
@@ -66,11 +68,12 @@ func CreateProduct(c *gin.Context) {
 	config.DB.Create(&product)
 	c.JSON(http.StatusOK, gin.H{"data": product})
 }
-//@tags products
-//@summary update product
-//@param product_id path int true "ProductID"
-//@param product body models.Product true "Products info"
-//@router /product/{product_id} [put]
+
+// @tags products
+// @summary update product
+// @param product_id path int true "ProductID"
+// @param product body models.Product true "Products info"
+// @router /product/{product_id} [put]
 // UpdateProduct - Cập nhật thông tin sản phẩm
 func UpdateProduct(c *gin.Context) {
 	var product models.Product
@@ -99,10 +102,11 @@ func UpdateProduct(c *gin.Context) {
 	config.DB.Save(&product)
 	c.JSON(http.StatusOK, gin.H{"data": product})
 }
-//@tags products
-//@summary delete product by id
-//@param product_id path int true "ProductID"
-//@router /product/{product_id} [delete]
+
+// @tags products
+// @summary delete product by id
+// @param product_id path int true "ProductID"
+// @router /product/{product_id} [delete]
 // DeleteProduct - Xóa sản phẩm theo ID
 func DeleteProduct(c *gin.Context) {
 	if err := config.DB.Delete(&models.Product{}, c.Param("product_id")).Error; err != nil {
@@ -111,10 +115,11 @@ func DeleteProduct(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
 }
-//@tags products
-//@summary get product by id
-//@param product_id path int true "ProductID"
-//@router /product/{product_id} [get]
+
+// @tags products
+// @summary get product by id
+// @param product_id path int true "ProductID"
+// @router /product/{product_id} [get]
 func GetProductByID(c *gin.Context) {
 	productIDStr := c.Param("product_id")
 	if productIDStr == "" {

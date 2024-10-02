@@ -76,24 +76,6 @@ const docTemplate = `{
                 ],
                 "responses": {}
             },
-            "delete": {
-                "tags": [
-                    "customers"
-                ],
-                "summary": "delete customer by id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Customer ID",
-                        "name": "customer_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/customer/{supplier_id}": {
             "put": {
                 "tags": [
                     "customers"
@@ -118,6 +100,22 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {}
+            },
+            "delete": {
+                "tags": [
+                    "customers"
+                ],
+                "summary": "delete customer by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Customer ID",
+                        "name": "customer_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
             }
         },
         "/order/": {
@@ -134,37 +132,6 @@ const docTemplate = `{
                 "summary": "Get all orders",
                 "responses": {}
             },
-            "put": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "orders"
-                ],
-                "summary": "update order",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "OrderID",
-                        "name": "order_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Orders data",
-                        "name": "order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Order"
-                        }
-                    }
-                ],
-                "responses": {}
-            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -175,15 +142,15 @@ const docTemplate = `{
                 "tags": [
                     "orders"
                 ],
-                "summary": "create order",
+                "summary": "Create Order",
                 "parameters": [
                     {
-                        "description": "Orders data",
+                        "description": "Order data",
                         "name": "order",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Order"
+                            "$ref": "#/definitions/controllers.CreateOrderInput"
                         }
                     }
                 ],
@@ -191,18 +158,27 @@ const docTemplate = `{
             }
         },
         "/order/{order_id}": {
-            "get": {
+            "put": {
                 "tags": [
                     "orders"
                 ],
-                "summary": "get order by id",
+                "summary": "Update Order by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "OrderID",
-                        "name": "orders_id",
+                        "description": "Order ID",
+                        "name": "order_id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Order data",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UpdateOrderInput"
+                        }
                     }
                 ],
                 "responses": {}
@@ -265,6 +241,24 @@ const docTemplate = `{
                 ],
                 "summary": "get allproducts",
                 "responses": {}
+            },
+            "post": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "create product",
+                "parameters": [
+                    {
+                        "description": "Product data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Product"
+                        }
+                    }
+                ],
+                "responses": {}
             }
         },
         "/product/{product_id}": {
@@ -299,24 +293,6 @@ const docTemplate = `{
                     },
                     {
                         "description": "Products info",
-                        "name": "product",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Product"
-                        }
-                    }
-                ],
-                "responses": {}
-            },
-            "post": {
-                "tags": [
-                    "products"
-                ],
-                "summary": "create product",
-                "parameters": [
-                    {
-                        "description": "Product data",
                         "name": "product",
                         "in": "body",
                         "required": true,
@@ -486,6 +462,45 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "controllers.CreateOrderInput": {
+            "type": "object",
+            "properties": {
+                "customer_id": {
+                    "type": "integer"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "product_id": {
+                                "type": "integer"
+                            },
+                            "quantity": {
+                                "type": "integer"
+                            },
+                            "unit_price": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "controllers.UpdateOrderInput": {
+            "type": "object",
+            "properties": {
+                "customer_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "total_amount": {
+                    "type": "number"
+                }
+            }
+        },
         "models.Customer": {
             "type": "object",
             "properties": {
@@ -506,29 +521,6 @@ const docTemplate = `{
                 },
                 "phone": {
                     "type": "string"
-                }
-            }
-        },
-        "models.Order": {
-            "type": "object",
-            "properties": {
-                "customer": {
-                    "$ref": "#/definitions/models.Customer"
-                },
-                "customer_id": {
-                    "type": "integer"
-                },
-                "order_date": {
-                    "type": "string"
-                },
-                "order_id": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "total_amount": {
-                    "type": "number"
                 }
             }
         },

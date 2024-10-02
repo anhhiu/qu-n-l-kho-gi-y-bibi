@@ -11,6 +11,7 @@ import (
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
+
 	docs.SwaggerInfo.BasePath = "/api"
 
 	// Cập nhật dòng này
@@ -72,8 +73,8 @@ func SetupRouter() *gin.Engine {
 		order.GET("/", controllers.GetAllOrder)
 		order.GET("/:order_id", controllers.GetOrderById)
 		order.POST("/", controllers.CreateOrder)
-		order.PUT("/:order_id", controllers.UpdateOrderById)
-		order.DELETE("/:order_id", controllers.DeleteOrderById)
+		order.PUT("/:order_id", controllers.UpdateOrderByID)
+		order.DELETE("/:order_id", controllers.DeleteOrderByID)
 	}
 
 	orderdetail := router.Group("/api/orderdetail")
