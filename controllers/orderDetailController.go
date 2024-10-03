@@ -27,7 +27,6 @@ func GetALLOrderDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": orderdetails})
 }
 
-// GetOrderDetailById godoc
 // @Summary Get order_detail by ID
 // @Description Retrieve a specific order detail by ID
 // @Tags orderdetails

@@ -16,7 +16,7 @@ import (
 // @Produce json
 // @Router /order/ [get]
 func GetAllOrder(c *gin.Context) {
-	var orders []models.Order // Thay đổi từ `models.Order` thành `[]models.Order`
+	var orders []models.Order
 
 	// Lấy tất cả các đơn hàng từ cơ sở dữ liệu
 	if err := config.DB.Find(&orders).Error; err != nil {
@@ -160,24 +160,24 @@ func UpdateOrderById(c *gin.Context) {
 		} `json:"products"`
 	}
 
-	// Bind input data
+	// kiểm tra json đầu vào
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
-	// Get the existing order
+	// tìm kiếm đơn hàng theo iid
 	var order models.Order
 	if err := config.DB.First(&order, c.Param("order_id")).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
 		return
 	}
 
-	// Update the order fields
+	// Cập nhật các trường lệnh
 	order.CustomerID = input.CustomerID
 	order.OrderDate = input.OrderDate
 
-	// Update order details
+	// cập nhật đơn hàng chi tiết
 	for _, p := range input.Products {
 		// Get the existing product
 		var product models.Product
@@ -186,21 +186,21 @@ func UpdateOrderById(c *gin.Context) {
 			return
 		}
 
-		// Update the quantity in stock
+		// cập nhật sản phẩm trong kho
 		product.Quantity -= p.Quantity // Adjust quantity
 		if product.Quantity < 0 {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Insufficient stock for product ID: " + strconv.Itoa(p.ProductID)})
 			return
 		}
 
-		// Save updated product
+		// cập nhật và lưu vào product
 		if err := config.DB.Save(&product).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product quantity"})
 			return
 		}
 	}
 
-	// Save the updated order
+	// cập nhật và lưu order
 	if err := config.DB.Save(&order).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update order"})
 		return
@@ -214,21 +214,21 @@ func UpdateOrderById(c *gin.Context) {
 // @Param order_id path int true "Order ID"
 // @Router /order/{order_id} [delete]
 func DeleteOrderById(c *gin.Context) {
-	// Get the order to delete
+	// tìm hóa đơn theo id
 	var order models.Order
 	if err := config.DB.First(&order, c.Param("order_id")).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
 		return
 	}
 
-	// Get order details
+	// tìm hóa đơn chi tiết
 	var orderDetails []models.OrderDetail
 	if err := config.DB.Where("order_id = ?", order.OrderID).Find(&orderDetails).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve order details"})
 		return
 	}
 
-	// Restore product quantities
+	// khôi phục lại số lượng sản phẩm trong kho
 	for _, detail := range orderDetails {
 		var product models.Product
 		if err := config.DB.First(&product, detail.ProductID).Error; err != nil {
@@ -236,23 +236,22 @@ func DeleteOrderById(c *gin.Context) {
 			return
 		}
 
-		// Restore quantity
 		product.Quantity += detail.Quantity
 
-		// Save updated product
+		// cập nhật và lưu vào  product
 		if err := config.DB.Save(&product).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product quantity"})
 			return
 		}
 	}
 
-	// Delete order details first
+	// xóa thông tin chi tiết về đơn hàng
 	if err := config.DB.Where("order_id = ?", order.OrderID).Delete(&models.OrderDetail{}).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete order details"})
 		return
 	}
 
-	// Finally, delete the order
+	// xóa đơn hàng
 	if err := config.DB.Delete(&order).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete order"})
 		return
