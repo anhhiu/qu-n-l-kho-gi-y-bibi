@@ -4,7 +4,7 @@ import (
 	"bibi/auth"
 	"bibi/controllers"
 	"bibi/docs"
-
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"                   // Swagger embed files
 	httpSwagger "github.com/swaggo/http-swagger" // Http Swagger middleware
 )
@@ -12,6 +12,16 @@ import (
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
+	corsConfig := cors.Config{
+		AllowAllOrigins: true, // Cho phép tất cả các nguồn gốc
+		// Hoặc bạn có thể chỉ định các nguồn gốc cụ thể:
+		// AllowOrigins: []string{"http://example.com"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		MaxAge:           12 * 60 * 60, // 12 giờ
+	}
+	router.Use(cors.New(corsConfig))
 	docs.SwaggerInfo.BasePath = "/api"
 
 	// Cập nhật dòng này
