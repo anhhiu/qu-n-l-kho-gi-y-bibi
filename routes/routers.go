@@ -17,13 +17,14 @@ func SetupRouter() *gin.Engine {
 	// Cập nhật dòng này
 	router.GET("/swagger/*any", gin.WrapH(httpSwagger.WrapHandler))
 
-	router.POST("/register", auth.Register)
-	router.POST("/login", auth.Login)
+	router.POST("/api/register", auth.Register)
+	router.POST("/api/login", auth.Login)
 
 	// Bao cao ton kho
 	report := router.Group("/api/report")
 	{
-		//report.Use(auth.AuthMiddleware("admin"))
+		report.Use(auth.AuthMiddleware("admin27"))
+		// token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInJvbGUiOiJhZG1pbjI3In0.uOYO9gH59494Wvm38NYSdTO10FgiWaOw28WIX9mlPyY
 		// Bao cao ton kho
 		report.GET("/inventory", controllers.GetInventoryReport)
 		// Bao cao doanh thu

@@ -17,6 +17,7 @@ import (
 // @Tags report
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Bearer token"
 // @Router /report/inventory [get]
 // ham bao cao ton kho
 func GetInventoryReport(c *gin.Context) {
@@ -50,6 +51,7 @@ func GetInventoryReport(c *gin.Context) {
 // @Tags report
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Bearer token"
 // @Router /report/revenue [get]
 // hma cao cao doanh thu
 func GetRevenueReport(c *gin.Context) {
@@ -90,6 +92,7 @@ func GetRevenueReport(c *gin.Context) {
 
 // GetOrderReport godoc
 // @Summary Thống kê đơn hàng
+// @Param Authorization header string true "Bearer token"
 // @Description Lấy báo cáo đơn hàng: xử lý, đang chờ, và bị hủy
 // @Tags report
 // @Accept json

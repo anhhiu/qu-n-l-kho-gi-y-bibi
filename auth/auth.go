@@ -14,6 +14,10 @@ import (
 var jwtSecret = []byte("your_secret_key")
 
 // Đăng ký
+// @tags auth
+// @summary đăng kí tài khoản
+// @param users body models.Users true "Users data"
+// @router /register/ [post]
 func Register(c *gin.Context) {
 	var user models.Users
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -30,6 +34,10 @@ func Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "User created"})
 }
 
+// @tags auth
+// @summary đăng nhập tài khoản
+// @param users body models.Users true "Users data"
+// @router /login/ [post]
 // Đăng nhập
 func Login(c *gin.Context) {
 	var user models.Users

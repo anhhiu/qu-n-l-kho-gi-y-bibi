@@ -118,6 +118,26 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/login/": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "đăng nhập tài khoản",
+                "parameters": [
+                    {
+                        "description": "Users data",
+                        "name": "users",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/order/": {
             "get": {
                 "consumes": [
@@ -130,30 +150,6 @@ const docTemplate = `{
                     "orders"
                 ],
                 "summary": "Get all orders",
-                "responses": {}
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "orders"
-                ],
-                "summary": "create order",
-                "parameters": [
-                    {
-                        "description": "Orders data",
-                        "name": "order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object"
-                        }
-                    }
-                ],
                 "responses": {}
             }
         },
@@ -320,6 +316,26 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/register/": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "đăng kí tài khoản",
+                "parameters": [
+                    {
+                        "description": "Users data",
+                        "name": "users",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/report/inventory": {
             "get": {
                 "description": "Lấy báo cáo tồn kho",
@@ -333,6 +349,15 @@ const docTemplate = `{
                     "report"
                 ],
                 "summary": "Thống kê báo cáo tồn kho",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -349,6 +374,15 @@ const docTemplate = `{
                     "report"
                 ],
                 "summary": "Thống kê đơn hàng",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -365,6 +399,15 @@ const docTemplate = `{
                     "report"
                 ],
                 "summary": "Thống kê doanh thu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -542,6 +585,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "website": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Users": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "username": {
                     "type": "string"
                 }
             }

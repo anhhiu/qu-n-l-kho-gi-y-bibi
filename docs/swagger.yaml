@@ -54,6 +54,17 @@ definitions:
       website:
         type: string
     type: object
+  models.Users:
+    properties:
+      password:
+        type: string
+      role:
+        type: string
+      user_id:
+        type: integer
+      username:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -126,6 +137,19 @@ paths:
       summary: update customer by id
       tags:
       - customers
+  /login/:
+    post:
+      parameters:
+      - description: Users data
+        in: body
+        name: users
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      responses: {}
+      summary: đăng nhập tài khoản
+      tags:
+      - auth
   /order/:
     get:
       consumes:
@@ -134,22 +158,6 @@ paths:
       - application/json
       responses: {}
       summary: Get all orders
-      tags:
-      - orders
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: Orders data
-        in: body
-        name: order
-        required: true
-        schema:
-          type: object
-      produces:
-      - application/json
-      responses: {}
-      summary: create order
       tags:
       - orders
   /order/{order_id}:
@@ -262,11 +270,30 @@ paths:
       summary: update product
       tags:
       - products
+  /register/:
+    post:
+      parameters:
+      - description: Users data
+        in: body
+        name: users
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      responses: {}
+      summary: đăng kí tài khoản
+      tags:
+      - auth
   /report/inventory:
     get:
       consumes:
       - application/json
       description: Lấy báo cáo tồn kho
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses: {}
@@ -278,6 +305,12 @@ paths:
       consumes:
       - application/json
       description: 'Lấy báo cáo đơn hàng: xử lý, đang chờ, và bị hủy'
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses: {}
@@ -289,6 +322,12 @@ paths:
       consumes:
       - application/json
       description: Lấy báo cáo doanh thu theo tháng
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses: {}
