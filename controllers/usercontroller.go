@@ -27,7 +27,10 @@ func CreateUser(c *gin.Context) {
 	config.DB.Create(&user)
 	c.JSON(http.StatusOK, gin.H{"data": user})
 }
-
+// Get
+// @tags auth
+// @summary danh sách tài khoản
+// @router /user/ [get]
 func GetUsers(c *gin.Context) {
 	var users []models.Users
 	if err := config.DB.Find(&users).Error; err != nil {

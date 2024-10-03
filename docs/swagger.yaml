@@ -396,4 +396,10 @@ paths:
       summary: update supplier
       tags:
       - suppliers
+  /user/:
+    get:
+      responses: {}
+      summary: danh sách tài khoản
+      tags:
+      - auth
 swagger: "2.0"

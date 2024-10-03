@@ -502,6 +502,15 @@ const docTemplate = `{
                 ],
                 "responses": {}
             }
+        },
+        "/user/": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "danh sách tài khoản",
+                "responses": {}
+            }
         }
     },
     "definitions": {
