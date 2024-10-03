@@ -23,7 +23,7 @@ func GetCustomer(c *gin.Context) {
 }
 
 // @tags customers
-// @Summary get customer by id
+// @Summary Get customer by id
 // @Param customer_id path int true "Customer ID"
 // @Router /customer/{customer_id} [get]
 func GetCustomerById(c *gin.Context) {
@@ -36,7 +36,7 @@ func GetCustomerById(c *gin.Context) {
 }
 
 // @tags customers
-// @Summary create customer
+// @Summary Create customer
 // @Param customer body models.Customer true "customer data"
 // @Router /customer/ [post]
 func CreateCustomer(c *gin.Context) {
@@ -57,7 +57,7 @@ func CreateCustomer(c *gin.Context) {
 }
 
 // @tags customers
-// @Summary update customer by id
+// @Summary Update customer by id
 // @Param customer_id path int true "Customer ID"
 // @Param customer body models.Customer true "Customer info"
 // @Router /customer/{customer_id} [put]
@@ -78,7 +78,7 @@ func UpdateCustomerById(c *gin.Context) {
 }
 
 // @tags customers
-// @Summary delete customer by id
+// @Summary Delete customer by id
 // @Param customer_id path int true "Customer ID"
 // @Router /customer/{customer_id} [delete]
 func DeleteCustomerById(c *gin.Context) {

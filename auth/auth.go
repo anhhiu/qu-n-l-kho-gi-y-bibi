@@ -15,7 +15,7 @@ var jwtSecret = []byte("your_secret_key")
 
 // Đăng ký
 // @tags auth
-// @summary đăng kí tài khoản
+// @summary register
 // @param users body models.Users true "Users data"
 // @router /register/ [post]
 func Register(c *gin.Context) {
@@ -35,10 +35,9 @@ func Register(c *gin.Context) {
 }
 
 // @tags auth
-// @summary đăng nhập tài khoản
+// @summary login
 // @param users body models.Users true "Users data"
 // @router /login/ [post]
-// Đăng nhập
 func Login(c *gin.Context) {
 	var user models.Users
 	var foundUser models.Users

@@ -15,11 +15,6 @@ import (
 // @Accept json
 // @Produce json
 // @Router /order/ [get]
-/* func GetAllOrder(c *gin.Context) {
-	var orders models.Order
-	config.DB.Find(&orders)
-	c.JSON(http.StatusOK, gin.H{"data": orders})
-} */
 func GetAllOrder(c *gin.Context) {
 	var orders []models.Order // Thay đổi từ `models.Order` thành `[]models.Order`
 
@@ -38,7 +33,7 @@ func GetAllOrder(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": orders})
 }
 
-// @Summary create order
+// @Summary Create order
 // @Tags orders
 // @Accept json
 // @Produce json
@@ -150,7 +145,7 @@ func CreateOrder(c *gin.Context) {
 	})
 }
 
-// @Summary update order by id
+// @Summary Update order by id
 // @Tags orders
 // @Param order_id path int true "Order ID"
 // @Param order body object true "Updated order data"
@@ -214,7 +209,7 @@ func UpdateOrderById(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Order updated successfully", "order": order})
 }
 
-// @Summary delete order by id
+// @Summary Delete order by id
 // @Tags orders
 // @Param order_id path int true "Order ID"
 // @Router /order/{order_id} [delete]
@@ -267,9 +262,9 @@ func DeleteOrderById(c *gin.Context) {
 }
 
 // @tags orders
-// @summary delele order by id
+// @summary Get order by id
 // @param orders_id path int true "OrderID"
-// @router /order/{order_id} [delete]
+// @router /order/{order_id} [get]
 func GetOrderById(c *gin.Context) {
 	var order models.Order
 	if err := config.DB.Where("order_id = ?", c.Param("order_id")).First(&order).Error; err != nil {

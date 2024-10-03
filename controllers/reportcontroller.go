@@ -19,7 +19,6 @@ import (
 // @Produce json
 // @Param Authorization header string true "Bearer token"
 // @Router /report/inventory [get]
-// ham bao cao ton kho
 func GetInventoryReport(c *gin.Context) {
 	var products []models.Product
 	var report models.InventoryReport
@@ -53,7 +52,6 @@ func GetInventoryReport(c *gin.Context) {
 // @Produce json
 // @Param Authorization header string true "Bearer token"
 // @Router /report/revenue [get]
-// hma cao cao doanh thu
 func GetRevenueReport(c *gin.Context) {
 	var orders []models.Order
 	revenueMap := make(map[string]float64) // để lưu trữ doanh thu theo tháng
@@ -98,7 +96,6 @@ func GetRevenueReport(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Router /report/order [get]
-// ham bao cao tinh trang các don hang
 func GetOrderReport(c *gin.Context) {
 	var orders []models.Order
 	orderReports := make(map[string]*models.OrderReport) // để lưu trữ báo cáo theo trạng thái

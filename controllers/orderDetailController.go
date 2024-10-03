@@ -12,7 +12,7 @@ import (
 )
 
 // @tags orderdetails
-// @summary get all orderdetails
+// @summary Get all orderdetails
 // @router /orderdetail/ [get]
 func GetALLOrderDetail(c *gin.Context) {
 	var orderdetails []models.OrderDetail
@@ -28,7 +28,7 @@ func GetALLOrderDetail(c *gin.Context) {
 }
 
 // GetOrderDetailById godoc
-// @Summary Get order detail by ID
+// @Summary Get order_detail by ID
 // @Description Retrieve a specific order detail by ID
 // @Tags orderdetails
 // @Accept json

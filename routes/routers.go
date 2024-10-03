@@ -20,7 +20,6 @@ func SetupRouter() *gin.Engine {
 	router.POST("/api/register", auth.Register)
 	router.POST("/api/login", auth.Login)
 
-	// Bao cao ton kho
 	report := router.Group("/api/report")
 	{
 		report.Use(auth.AuthMiddleware("admin27"))

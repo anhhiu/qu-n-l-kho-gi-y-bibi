@@ -94,7 +94,7 @@ paths:
         schema:
           $ref: '#/definitions/models.Customer'
       responses: {}
-      summary: create customer
+      summary: Create customer
       tags:
       - customers
   /customer/{customer_id}:
@@ -106,7 +106,7 @@ paths:
         required: true
         type: integer
       responses: {}
-      summary: delete customer by id
+      summary: Delete customer by id
       tags:
       - customers
     get:
@@ -117,7 +117,7 @@ paths:
         required: true
         type: integer
       responses: {}
-      summary: get customer by id
+      summary: Get customer by id
       tags:
       - customers
     put:
@@ -134,7 +134,7 @@ paths:
         schema:
           $ref: '#/definitions/models.Customer'
       responses: {}
-      summary: update customer by id
+      summary: Update customer by id
       tags:
       - customers
   /login/:
@@ -147,7 +147,7 @@ paths:
         schema:
           $ref: '#/definitions/models.Users'
       responses: {}
-      summary: đăng nhập tài khoản
+      summary: login
       tags:
       - auth
   /order/:
@@ -163,13 +163,24 @@ paths:
   /order/{order_id}:
     delete:
       parameters:
+      - description: Order ID
+        in: path
+        name: order_id
+        required: true
+        type: integer
+      responses: {}
+      summary: Delete order by id
+      tags:
+      - orders
+    get:
+      parameters:
       - description: OrderID
         in: path
         name: orders_id
         required: true
         type: integer
       responses: {}
-      summary: delele order by id
+      summary: Get order by id
       tags:
       - orders
     put:
@@ -186,13 +197,13 @@ paths:
         schema:
           type: object
       responses: {}
-      summary: update order by id
+      summary: Update order by id
       tags:
       - orders
   /orderdetail/:
     get:
       responses: {}
-      summary: get all orderdetails
+      summary: Get all orderdetails
       tags:
       - orderdetails
   /orderdetail/{order_detail_id}:
@@ -209,13 +220,13 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: Get order detail by ID
+      summary: Get order_detail by ID
       tags:
       - orderdetails
   /product/:
     get:
       responses: {}
-      summary: get allproducts
+      summary: Get all products
       tags:
       - products
     post:
@@ -227,7 +238,7 @@ paths:
         schema:
           $ref: '#/definitions/models.Product'
       responses: {}
-      summary: create product
+      summary: Create product
       tags:
       - products
   /product/{product_id}:
@@ -239,7 +250,7 @@ paths:
         required: true
         type: integer
       responses: {}
-      summary: delete product by id
+      summary: Delete product by id
       tags:
       - products
     get:
@@ -250,7 +261,7 @@ paths:
         required: true
         type: integer
       responses: {}
-      summary: get product by id
+      summary: Get product by id
       tags:
       - products
     put:
@@ -267,7 +278,7 @@ paths:
         schema:
           $ref: '#/definitions/models.Product'
       responses: {}
-      summary: update product
+      summary: Update product by id
       tags:
       - products
   /register/:
@@ -280,7 +291,7 @@ paths:
         schema:
           $ref: '#/definitions/models.Users'
       responses: {}
-      summary: đăng kí tài khoản
+      summary: register
       tags:
       - auth
   /report/inventory:
@@ -353,7 +364,7 @@ paths:
         schema:
           $ref: '#/definitions/models.Supplier'
       responses: {}
-      summary: delete supplier
+      summary: Create supplier
       tags:
       - suppliers
   /supplier/{supplier_id}:
@@ -365,7 +376,7 @@ paths:
         required: true
         type: integer
       responses: {}
-      summary: delete supplier
+      summary: Delete supplier
       tags:
       - suppliers
     get:
@@ -393,13 +404,13 @@ paths:
         schema:
           $ref: '#/definitions/models.Supplier'
       responses: {}
-      summary: update supplier
+      summary: Update supplier
       tags:
       - suppliers
   /user/:
     get:
       responses: {}
-      summary: danh sách tài khoản
+      summary: Get all users
       tags:
       - auth
 swagger: "2.0"

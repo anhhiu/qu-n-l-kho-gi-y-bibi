@@ -11,9 +11,8 @@ import (
 )
 
 // @tags products
-// @summary get allproducts
+// @summary Get all products
 // @router /product/ [get]
-// GetAllProducts - Lấy tất cả sản phẩm
 func GetAllProducts(c *gin.Context) {
 	var products []models.Product
 	if err := config.DB.Find(&products).Error; err != nil {
@@ -24,7 +23,7 @@ func GetAllProducts(c *gin.Context) {
 }
 
 // @tags products
-// @summary create product
+// @summary Create product
 // @param product body models.Product true "Product data"
 // @router /product/ [post]
 func CreateProduct(c *gin.Context) {
@@ -70,11 +69,10 @@ func CreateProduct(c *gin.Context) {
 }
 
 // @tags products
-// @summary update product
+// @summary Update product by id
 // @param product_id path int true "ProductID"
 // @param product body models.Product true "Products info"
 // @router /product/{product_id} [put]
-// UpdateProduct - Cập nhật thông tin sản phẩm
 func UpdateProduct(c *gin.Context) {
 	var product models.Product
 	if err := config.DB.Where("product_id = ?", c.Param("product_id")).First(&product).Error; err != nil {
@@ -104,10 +102,9 @@ func UpdateProduct(c *gin.Context) {
 }
 
 // @tags products
-// @summary delete product by id
+// @summary Delete product by id
 // @param product_id path int true "ProductID"
 // @router /product/{product_id} [delete]
-// DeleteProduct - Xóa sản phẩm theo ID
 func DeleteProduct(c *gin.Context) {
 	if err := config.DB.Delete(&models.Product{}, c.Param("product_id")).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
@@ -117,7 +114,7 @@ func DeleteProduct(c *gin.Context) {
 }
 
 // @tags products
-// @summary get product by id
+// @summary Get product by id
 // @param product_id path int true "ProductID"
 // @router /product/{product_id} [get]
 func GetProductByID(c *gin.Context) {

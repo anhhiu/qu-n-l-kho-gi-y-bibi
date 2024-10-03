@@ -29,7 +29,7 @@ func CreateUser(c *gin.Context) {
 }
 // Get
 // @tags auth
-// @summary danh sách tài khoản
+// @summary Get all users
 // @router /user/ [get]
 func GetUsers(c *gin.Context) {
 	var users []models.Users

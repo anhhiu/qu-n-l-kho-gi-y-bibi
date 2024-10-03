@@ -21,7 +21,7 @@ func GetSupplier(c *gin.Context) {
 }
 
 // @tags suppliers
-// @Summary delete supplier
+// @Summary Create supplier
 // @Param supplier body models.Supplier true "Supplier data"
 // @Router /supplier/ [post]
 func CreateSupplier(c *gin.Context) {
@@ -55,7 +55,7 @@ func GetSupplierById(c *gin.Context) {
 }
 
 // @tags suppliers
-// @Summary update supplier
+// @Summary Update supplier
 // @Param supplier_id path int true "Supplier ID"
 // @Param supplier body models.Supplier true "Supplier info"
 // @Router /supplier/{supplier_id} [put]
@@ -76,7 +76,7 @@ func UpdateSuplierById(c *gin.Context) {
 }
 
 // @tags suppliers
-// @Summary delete supplier
+// @Summary Delete supplier
 // @Param supplier_id path int true "Supplier ID"
 // @Router /supplier/{supplier_id} [delete]
 func DeleteSupplierById(c *gin.Context) {

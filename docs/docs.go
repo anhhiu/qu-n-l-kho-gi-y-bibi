@@ -44,7 +44,7 @@ const docTemplate = `{
                 "tags": [
                     "customers"
                 ],
-                "summary": "create customer",
+                "summary": "Create customer",
                 "parameters": [
                     {
                         "description": "customer data",
@@ -64,7 +64,7 @@ const docTemplate = `{
                 "tags": [
                     "customers"
                 ],
-                "summary": "get customer by id",
+                "summary": "Get customer by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -80,7 +80,7 @@ const docTemplate = `{
                 "tags": [
                     "customers"
                 ],
-                "summary": "update customer by id",
+                "summary": "Update customer by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -105,7 +105,7 @@ const docTemplate = `{
                 "tags": [
                     "customers"
                 ],
-                "summary": "delete customer by id",
+                "summary": "Delete customer by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -123,7 +123,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "đăng nhập tài khoản",
+                "summary": "login",
                 "parameters": [
                     {
                         "description": "Users data",
@@ -154,11 +154,27 @@ const docTemplate = `{
             }
         },
         "/order/{order_id}": {
+            "get": {
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Get order by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "OrderID",
+                        "name": "orders_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
             "put": {
                 "tags": [
                     "orders"
                 ],
-                "summary": "update order by id",
+                "summary": "Update order by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -183,12 +199,12 @@ const docTemplate = `{
                 "tags": [
                     "orders"
                 ],
-                "summary": "delele order by id",
+                "summary": "Delete order by id",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "OrderID",
-                        "name": "orders_id",
+                        "description": "Order ID",
+                        "name": "order_id",
                         "in": "path",
                         "required": true
                     }
@@ -201,7 +217,7 @@ const docTemplate = `{
                 "tags": [
                     "orderdetails"
                 ],
-                "summary": "get all orderdetails",
+                "summary": "Get all orderdetails",
                 "responses": {}
             }
         },
@@ -217,7 +233,7 @@ const docTemplate = `{
                 "tags": [
                     "orderdetails"
                 ],
-                "summary": "Get order detail by ID",
+                "summary": "Get order_detail by ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -235,14 +251,14 @@ const docTemplate = `{
                 "tags": [
                     "products"
                 ],
-                "summary": "get allproducts",
+                "summary": "Get all products",
                 "responses": {}
             },
             "post": {
                 "tags": [
                     "products"
                 ],
-                "summary": "create product",
+                "summary": "Create product",
                 "parameters": [
                     {
                         "description": "Product data",
@@ -262,7 +278,7 @@ const docTemplate = `{
                 "tags": [
                     "products"
                 ],
-                "summary": "get product by id",
+                "summary": "Get product by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -278,7 +294,7 @@ const docTemplate = `{
                 "tags": [
                     "products"
                 ],
-                "summary": "update product",
+                "summary": "Update product by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -303,7 +319,7 @@ const docTemplate = `{
                 "tags": [
                     "products"
                 ],
-                "summary": "delete product by id",
+                "summary": "Delete product by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -321,7 +337,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "đăng kí tài khoản",
+                "summary": "register",
                 "parameters": [
                     {
                         "description": "Users data",
@@ -429,7 +445,7 @@ const docTemplate = `{
                 "tags": [
                     "suppliers"
                 ],
-                "summary": "delete supplier",
+                "summary": "Create supplier",
                 "parameters": [
                     {
                         "description": "Supplier data",
@@ -465,7 +481,7 @@ const docTemplate = `{
                 "tags": [
                     "suppliers"
                 ],
-                "summary": "update supplier",
+                "summary": "Update supplier",
                 "parameters": [
                     {
                         "type": "integer",
@@ -490,7 +506,7 @@ const docTemplate = `{
                 "tags": [
                     "suppliers"
                 ],
-                "summary": "delete supplier",
+                "summary": "Delete supplier",
                 "parameters": [
                     {
                         "type": "integer",
@@ -508,7 +524,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "danh sách tài khoản",
+                "summary": "Get all users",
                 "responses": {}
             }
         }
