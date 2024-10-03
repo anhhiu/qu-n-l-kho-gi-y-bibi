@@ -15,9 +15,26 @@ import (
 // @Accept json
 // @Produce json
 // @Router /order/ [get]
-func GetAllOrder(c *gin.Context) {
+/* func GetAllOrder(c *gin.Context) {
 	var orders models.Order
 	config.DB.Find(&orders)
+	c.JSON(http.StatusOK, gin.H{"data": orders})
+} */
+func GetAllOrder(c *gin.Context) {
+	var orders []models.Order // Thay đổi từ `models.Order` thành `[]models.Order`
+
+	// Lấy tất cả các đơn hàng từ cơ sở dữ liệu
+	if err := config.DB.Find(&orders).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve orders"})
+		return
+	}
+
+	// Kiểm tra xem có đơn hàng nào không
+	if len(orders) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No orders found"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"data": orders})
 }
 
@@ -27,6 +44,7 @@ func GetAllOrder(c *gin.Context) {
 // @Produce json
 // @Param order body object true "Orders data"
 // @Router /order/ [post]
+
 func CreateOrder(c *gin.Context) {
 	// Khai báo cấu trúc đầu vào
 	var input struct {
@@ -45,15 +63,23 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
+	// Khởi tạo transaction
+	tx := config.DB.Begin()
+	if tx.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to start transaction"})
+		return
+	}
+
 	// Tạo đơn hàng mới
 	order := models.Order{
 		CustomerID: input.CustomerID,
-		OrderDate:  input.OrderDate,
+		OrderDate:  time.Now(),
 		Status:     "Đã Mua", // Trạng thái mặc định
 	}
 
 	// Lưu đơn hàng vào cơ sở dữ liệu
-	if err := config.DB.Create(&order).Error; err != nil {
+	if err := tx.Create(&order).Error; err != nil {
+		tx.Rollback() // Rollback transaction nếu có lỗi
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create order"})
 		return
 	}
@@ -66,13 +92,15 @@ func CreateOrder(c *gin.Context) {
 
 		// Lấy sản phẩm từ cơ sở dữ liệu
 		var product models.Product
-		if err := config.DB.First(&product, p.ProductID).Error; err != nil {
+		if err := tx.First(&product, p.ProductID).Error; err != nil {
+			tx.Rollback() // Rollback transaction nếu có lỗi
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Product not found"})
 			return
 		}
 
 		// Kiểm tra xem số lượng trong kho có đủ không
 		if product.Quantity < p.Quantity {
+			tx.Rollback() // Rollback transaction nếu có lỗi
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Insufficient stock for product ID: " + strconv.Itoa(p.ProductID)})
 			return
 		}
@@ -86,14 +114,16 @@ func CreateOrder(c *gin.Context) {
 		}
 
 		// Lưu chi tiết đơn hàng vào cơ sở dữ liệu
-		if err := config.DB.Create(&orderDetail).Error; err != nil {
+		if err := tx.Create(&orderDetail).Error; err != nil {
+			tx.Rollback() // Rollback transaction nếu có lỗi
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create order detail"})
 			return
 		}
 
 		// Giảm số lượng sản phẩm trong kho
 		product.Quantity -= p.Quantity
-		if err := config.DB.Save(&product).Error; err != nil {
+		if err := tx.Save(&product).Error; err != nil {
+			tx.Rollback() // Rollback transaction nếu có lỗi
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product quantity"})
 			return
 		}
@@ -101,8 +131,15 @@ func CreateOrder(c *gin.Context) {
 
 	// Cập nhật tổng tiền cho đơn hàng
 	order.TotalAmount = totalAmount
-	if err := config.DB.Save(&order).Error; err != nil {
+	if err := tx.Save(&order).Error; err != nil {
+		tx.Rollback() // Rollback transaction nếu có lỗi
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update order total amount"})
+		return
+	}
+
+	// Commit transaction
+	if err := tx.Commit().Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to commit transaction"})
 		return
 	}
 
