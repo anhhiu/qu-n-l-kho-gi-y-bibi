@@ -1,1 +1,1 @@
-# qu-n-l-kho-gi-y-bibi
+# quan li kho giay bibi
