@@ -175,7 +175,7 @@ func UpdateOrderById(c *gin.Context) {
 
 	// Cập nhật các trường lệnh
 	order.CustomerID = input.CustomerID
-	order.OrderDate = input.OrderDate
+	order.OrderDate = time.Now()
 
 	// cập nhật đơn hàng chi tiết
 	for _, p := range input.Products {
