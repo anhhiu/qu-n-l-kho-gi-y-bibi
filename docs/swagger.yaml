@@ -174,9 +174,9 @@ paths:
       - orders
     get:
       parameters:
-      - description: OrderID
+      - description: Order ID
         in: path
-        name: orders_id
+        name: order_id
         required: true
         type: integer
       responses: {}

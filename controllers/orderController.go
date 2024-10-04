@@ -3,6 +3,7 @@ package controllers
 import (
 	"bibi/config"
 	"bibi/models"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -262,12 +263,14 @@ func DeleteOrderById(c *gin.Context) {
 
 // @tags orders
 // @summary Get order by id
-// @param orders_id path int true "OrderID"
+// @param order_id path int true "Order ID"
 // @router /order/{order_id} [get]
 func GetOrderById(c *gin.Context) {
+	orderID := c.Param("order_id")
+	fmt.Println("Fetching order with ID:", orderID) // Ghi log orderID
 	var order models.Order
-	if err := config.DB.Where("order_id = ?", c.Param("order_id")).First(&order).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "error not found"})
+	if err := config.DB.Where("order_id = ?", orderID).First(&order).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": order})
